@@ -14,9 +14,11 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@gsbenevides2'
+      - name: Install Yarn
+        run: npm install -g yarn
       - name: Install and Build 🔧
         run: | # Install npm packages and build the docs
-          yarn install --immutable
+          yarn install
           yarn build
           yarn build:docs
       - name: Deploy 🚀
