@@ -21,6 +21,5 @@ jobs:
           FOLDER: docs
           CLEAN: true
           SINGLE_COMMIT: true
-          # TARGET_FOLDER: docs # The folder that we serve our Storybook files
-          GIT_CONFIG_NAME: lukasbachbot
-          GIT_CONFIG_EMAIL: bot@noreply.lukasbach.com
+          GIT_CONFIG_NAME: gsbenevides2
+          GIT_CONFIG_EMAIL: git@gui.dev.br

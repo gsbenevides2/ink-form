@@ -39,6 +39,13 @@ export interface FormProps {
    * value and supplying a FormFieldManager here that can handle this type.
    */
   customManagers?: FormFieldManager<FormField | AbstractFormField<any, any>>[];
+
+  /**
+   * Language texts for the form. You can supply your own language texts for the submit button and others.
+   * If omitted, the default texts in English will be used.
+   * You can import languages ​​in the language folder: import ptBr from 'ink-form/lib/language/ptBr';
+   */
+  language?: FormLanguageTexts;
 }
 
 /**
@@ -189,4 +196,49 @@ export type SpecificFormFieldRendererProps<T extends FormField> = FormFieldRende
   error?: string;
   onSave: (newValue?: ValueOfField<T>) => void;
   onCancel: () => void;
+};
+
+export type FormLanguageTexts = {
+  /** The text of instruction to use arrows keys */
+  arrowKeysInstruction: string;
+  /** The text of instruction to use ESC to cancel or Enter to complete field */
+  escKeyInstruction: string;
+  /** The text of editing field */
+  editingField: string;
+  /** The text to press enter to edit  */
+  pressEnterToEdit: string;
+  /** The text of formfield manager is available. Use {formfieldtype} to replace to formfield type. */
+  noFormFieldManager: string;
+  /** The text to press ESC to cancel */
+  pressEscToCancel: string;
+  /** The text to press CTRL+Enter or Enter to complete field, or ESC to cancel. Use {needCtrlToReturnSave} to replace to needCtrlToReturnSave */
+  pressEnterToComplete: string;
+  /** The text to min number error. Use {value} to current value and {min} to minimal value */
+  minNumberError: string;
+  /** The text to max number error. Use {value} to current value and {max} to maximal value */
+  maxNumberError: string;
+  /** The text to float or integer error. Use {value} to current value and {type} to type of value */
+  floatOrIntegerError: string;
+  /** The text to increse or decrease */
+  increaseOrDecrease: string;
+  /** The text to missing required */
+  missingRequired: string;
+  /** The text to press Enter to submit form */
+  pressEnterToSubmit: string;
+  /** The text to use arrow keys to navigate to the submit button */
+  useArrowKeysToNavigate: string;
+  /** The text to cannot submit */
+  cannotSubmit: string;
+  /** The text of the submit button. */
+  submmitButton: string;
+  /** The text of boolean true */
+  booleanTrue: string;
+  /** The text of boolean false */
+  booleanFalse: string;
+  /** The text of boolean not set */
+  booleanNotSet: string;
+  /** The text of string regular error. Use {regex} to replace to regular expression */
+  stringRegularError: string;
+  /** The text of select no value */
+  selectNoValue: string;
 };

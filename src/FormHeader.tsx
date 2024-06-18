@@ -1,5 +1,6 @@
-import * as React from 'react';
 import { Box, Text, useInput } from 'ink';
+import * as React from 'react';
+import { LanguageContext } from './language/context.js';
 import { FormProps } from './types.js';
 
 export const HELP_SECTION_ID = 'Help';
@@ -8,6 +9,7 @@ export const FormHeader: React.FC<
   FormProps & { currentTab: number; onChangeTab: (tab: number) => void; editingField?: string }
 > = props => {
   const sections = props.form.sections;
+  const language = React.useContext(LanguageContext);
 
   useInput(
     (input, key) => {
@@ -35,9 +37,7 @@ export const FormHeader: React.FC<
           <Text bold={true}>{props.form.title}</Text>
         </Box>
         <Box>
-          <Text>
-            {!props.editingField ? 'Use arrow keys to move around' : 'Press ESC to cancel, or Enter to complete field'}
-          </Text>
+          <Text>{!props.editingField ? language.arrowKeysInstruction : language.escKeyInstruction}</Text>
         </Box>
       </Box>
       <Box width="100%">
@@ -54,7 +54,9 @@ export const FormHeader: React.FC<
             ))
           ) : (
             <Box>
-              <Text>Editing {props.editingField}</Text>
+              <Text>
+                {language.editingField} {props.editingField}
+              </Text>
             </Box>
           )}
         </Box>

@@ -1,7 +1,8 @@
-import React from 'react';
-import { FormFieldFloat, FormFieldInteger, SpecificFormFieldRendererProps } from './types.js';
 import { Box, Text, useInput } from 'ink';
 import TextInput from 'ink-text-input';
+import React from 'react';
+import { LanguageContext } from './language/context.js';
+import { FormFieldFloat, FormFieldInteger, SpecificFormFieldRendererProps } from './types.js';
 
 const FLOAT_REGEX = /^-?((\d+)|(\d*\.\d+))$/;
 const INTEGER_REGEX = /^-?\d+$/;
@@ -9,6 +10,7 @@ const INTEGER_REGEX = /^-?\d+$/;
 export const NumberFieldRenderer: React.FC<
   SpecificFormFieldRendererProps<FormFieldInteger | FormFieldFloat> & { isFloat: boolean }
 > = props => {
+  const language = React.useContext(LanguageContext);
   const regex = props.isFloat ? FLOAT_REGEX : INTEGER_REGEX;
   const parse = props.isFloat ? parseFloat : parseInt;
 
@@ -17,18 +19,20 @@ export const NumberFieldRenderer: React.FC<
       props.onClearError();
       const asNumber = Math.round(parse(value) * 100000) / 100000;
       if (props.field.min !== undefined && props.field.min > asNumber) {
-        props.onError(`"${value}" too small, must be above or equal to ${props.field.min}.`);
+        props.onError(language.minNumberError.replace('{value}', value).replace('{min}', props.field.min.toString()));
         props.onChange(value as any);
         return;
       } else if (props.field.max !== undefined && props.field.max < asNumber) {
-        props.onError(`"${value}" too big, must be below or equal to ${props.field.max}.`);
+        props.onError(language.maxNumberError.replace('{value}', value).replace('{max}', props.field.max.toString()));
         props.onChange(value as any);
         return;
       } else {
         props.onChange(asNumber);
       }
     } else {
-      props.onError(`"${value}" is not an ${props.isFloat ? 'float' : 'integer'}.`);
+      props.onError(
+        language.floatOrIntegerError.replace('{value}', value).replace('{type}', props.isFloat ? 'float' : 'integer')
+      );
       props.onChange(value as any);
     }
   };
@@ -59,7 +63,11 @@ export const NumberFieldRenderer: React.FC<
               props.onClearError();
               change(value);
             } else {
-              props.onError(`"${value}" is not an ${props.isFloat ? 'float' : 'integer'}.`);
+              props.onError(
+                language.floatOrIntegerError
+                  .replace('{value}', value)
+                  .replace('{type}', props.isFloat ? 'float' : 'integer')
+              );
               props.onChange(value as any);
             }
           }}
@@ -68,7 +76,7 @@ export const NumberFieldRenderer: React.FC<
         />
       </Box>
       <Box>
-        <Text dimColor>Press UP/DOWN to increase or decrease the value.</Text>
+        <Text dimColor>{language.increaseOrDecrease}</Text>
       </Box>
     </Box>
   );

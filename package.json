@@ -36,6 +36,7 @@
   "scripts": {
     "start": "ts-node-esm src/demo/overview.tsx",
     "demo:overview": "ts-node-esm src/demo/overview.tsx",
+    "demo:language": "ts-node-esm src/demo/language.tsx",
     "demo:packagejson": "ts-node-esm src/demo/packagejson.tsx",
     "demo:custommanager": "ts-node-esm src/demo/custommanager.tsx",
     "demo:imperative": "ts-node-esm src/demo/imperative.ts",
@@ -60,5 +61,6 @@
   "publish": {
     "preScripts": "build,build:docs,lint",
     "releaseNotesSource": "next-releasenotes.md"
-  }
+  },
+  "packageManager": "yarn@4.3.0"
 }

@@ -1,8 +1,9 @@
-import { Box, render, Text } from 'ink';
+import { render } from 'ink';
 import { Form } from '../Form.js';
-import React from 'react';
-import { AbstractFormField, FormFieldManager } from '../types.js';
+
 import TextInput from 'ink-text-input';
+import React from 'react';
+import { AbstractFormField } from '../types.js';
 
 type CustomField = AbstractFormField<'custom', string> & { length: number };
 

@@ -1,10 +1,12 @@
+import { Box, Text, useFocus, useInput } from 'ink';
 import React from 'react';
-import { Text, Box, useFocus, useInput } from 'ink';
+import { LanguageContext } from './language/context.js';
 
 export const SubmitButton: React.FC<{
   canSubmit: boolean;
   onSubmit: () => void;
 }> = props => {
+  const language = React.useContext(LanguageContext);
   const { isFocused } = useFocus({ isActive: props.canSubmit });
   useInput((input, key) => {
     if (key.return && isFocused && props.canSubmit) {
@@ -17,15 +19,15 @@ export const SubmitButton: React.FC<{
       <Box marginRight={2} paddingY={1}>
         <Text>
           {!props.canSubmit
-            ? 'There are still required inputs you have not competed yet.'
+            ? language.missingRequired
             : isFocused
-            ? 'Press Enter to submit form'
-            : 'Use the arrow keys to navigate to the submit button.'}
+            ? language.pressEnterToSubmit
+            : language.useArrowKeysToNavigate}
         </Text>
       </Box>
       <Box borderStyle={'round'} borderColor={!props.canSubmit ? 'gray' : isFocused ? 'blue' : 'white'} paddingX={2}>
         <Text color={!props.canSubmit ? 'gray' : isFocused ? 'blue' : 'white'} bold={true} underline={isFocused}>
-          {props.canSubmit ? 'Submit form' : 'Cannot submit form yet'}
+          {props.canSubmit ? language.submmitButton : language.cannotSubmit}
         </Text>
       </Box>
     </Box>

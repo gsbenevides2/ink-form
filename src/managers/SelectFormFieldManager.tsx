@@ -1,3 +1,7 @@
+import { Box } from 'ink';
+import SelectInput from 'ink-select-input';
+import React from 'react';
+import { LanguageContext } from '../language/context.js';
 import {
   FormFieldManager,
   FormFieldSelect,
@@ -5,11 +9,9 @@ import {
   SpecificFormFieldRendererProps,
   TypeOfField,
 } from '../types.js';
-import React from 'react';
-import { Box } from 'ink';
-import SelectInput from 'ink-select-input';
 
 export class SelectFormFieldManager implements FormFieldManager<FormFieldSelect> {
+  needCtrlToReturnSave?: boolean | undefined;
   public type: TypeOfField<FormFieldSelect> = 'select';
 
   public renderField: React.FC<SpecificFormFieldRendererProps<FormFieldSelect>> = props => (
@@ -22,7 +24,14 @@ export class SelectFormFieldManager implements FormFieldManager<FormFieldSelect>
     </Box>
   );
 
-  public renderValue: React.FC<FormFieldValueRendererProps<FormFieldSelect>> = props => (
-    <>{props.field.options.find(option => option.value === props.value)?.label ?? props.value ?? 'No value'}</>
-  );
+  public renderValue: React.FC<FormFieldValueRendererProps<FormFieldSelect>> = props => {
+    const language = React.useContext(LanguageContext);
+    return (
+      <>
+        {props.field.options.find(option => option.value === props.value)?.label ??
+          props.value ??
+          language.selectNoValue}
+      </>
+    );
+  };
 }

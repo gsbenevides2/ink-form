@@ -1,13 +1,15 @@
+import { Box, Text, useFocus, useInput } from 'ink';
 import React, { useState } from 'react';
-import { FormField, FormFieldRendererProps, SpecificFormFieldRendererProps } from './types.js';
-import { Box, useFocus, Text, useInput } from 'ink';
-import { getManager } from './managers/managers.js';
 import { DescriptionRenderer } from './DescriptionRenderer.js';
+import { LanguageContext } from './language/context.js';
+import { getManager } from './managers/managers.js';
+import { FormField, FormFieldRendererProps, SpecificFormFieldRendererProps } from './types.js';
 
 export const FormFieldRenderer: React.FC<FormFieldRendererProps<any>> = props => {
   const manager = getManager(props.field.type, props.customManagers);
   const [error, setError] = useState<string>();
   const [currentValue, setCurrentValue] = useState<any>(props.value ?? props.field.initialValue);
+  const language = React.useContext(LanguageContext);
 
   const isEditing = !!props.editingField && props.editingField === (props.field.label ?? props.field.name);
   const hide = !isEditing && !!props.editingField;
@@ -65,7 +67,7 @@ export const FormFieldRenderer: React.FC<FormFieldRendererProps<any>> = props =>
         </Box>
         {isFocused && (
           <Box>
-            <Text>Press enter to edit</Text>
+            <Text>{language.pressEnterToEdit}</Text>
           </Box>
         )}
       </Box>
@@ -84,7 +86,7 @@ export const FormFieldRenderer: React.FC<FormFieldRendererProps<any>> = props =>
     };
 
     if (!manager) {
-      component = <Text color="red">No formfield manager for form field of type {props.field.type} available.</Text>;
+      component = <Text color="red">{language.noFormFieldManager.replace('{formfieldtype}', props.field.type)}</Text>;
     } else {
       const Field = manager.renderField;
       component = <Field {...rendererProps} />;
@@ -113,9 +115,14 @@ export const FormFieldRenderer: React.FC<FormFieldRendererProps<any>> = props =>
         <Box marginTop={2}>
           <Text dimColor>
             {error ? (
-              <>Press ESC to cancel.</>
+              <>{language.pressEscToCancel}.</>
             ) : (
-              <>Press {manager?.needCtrlToReturnSave ? 'CTRL+Enter' : 'Enter'} to complete field, or ESC to cancel.</>
+              <>
+                {language.pressEnterToComplete.replace(
+                  '{needCtrlToReturnSave}',
+                  manager?.needCtrlToReturnSave ? 'true' : 'false'
+                )}
+              </>
             )}
           </Text>
         </Box>
