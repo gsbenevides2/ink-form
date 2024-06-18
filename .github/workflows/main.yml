@@ -12,8 +12,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@gsbenevides2'
       - name: Install and Build 🔧
         run: yarn install && yarn build && yarn build:docs
       - name: Deploy 🚀
