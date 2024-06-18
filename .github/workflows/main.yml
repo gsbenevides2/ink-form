@@ -17,7 +17,7 @@ jobs:
       - name: Install Yarn
         run: npm install -g yarn
       - name: Install and Build 🔧
-        run: | # Install npm packages and build the docs
+        run: 
           yarn install
           yarn build
           yarn build:docs
